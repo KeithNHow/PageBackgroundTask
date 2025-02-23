@@ -1,3 +1,5 @@
+namespace PageBackground;
+using Microsoft.Sales.Customer;
 codeunit 52001 "KNH Background Test"
 {
     Subtype = Test;
