@@ -4,7 +4,7 @@ codeunit 52000 KNHBackgroundParameters
 {
     trigger OnRun()
     var
-        Result: Dictionary of [Text, Text];
+        Results: Dictionary of [Text, Text];
         StartTime: Time;
         WaitParam: Text;
         WaitTime: Integer;
@@ -17,10 +17,10 @@ codeunit 52000 KNHBackgroundParameters
         Sleep(WaitTime);
         EndTime := System.Time();
 
-        Result.Add('started', Format(StartTime));
-        Result.Add('waited', Format(WaitTime));
-        Result.Add('finished', Format(EndTime));
+        Results.Add('started', Format(StartTime));
+        Results.Add('waited', Format(WaitTime));
+        Results.Add('finished', Format(EndTime));
 
-        Page.SetBackgroundTaskResult(Result);
+        Page.SetBackgroundTaskResult(Results);
     end;
 }
