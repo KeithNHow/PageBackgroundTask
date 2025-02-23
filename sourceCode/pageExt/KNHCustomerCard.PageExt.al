@@ -7,19 +7,19 @@ pageextension 52000 KNHCustomerCard extends "Customer Card"
     {
         addlast(General)
         {
-            field(starttime; starttime)
+            field(start_time; starttime)
             {
                 ApplicationArea = All;
                 Caption = 'Start Time';
                 Editable = false;
             }
-            field(durationtime; durationtime)
+            field(duration_time; durationtime)
             {
                 ApplicationArea = All;
                 Caption = 'Duration';
                 Editable = false;
             }
-            field(endtime; endtime)
+            field(end_time; endtime)
             {
                 ApplicationArea = All;
                 Caption = 'End Time';
