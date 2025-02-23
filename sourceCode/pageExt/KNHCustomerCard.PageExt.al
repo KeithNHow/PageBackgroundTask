@@ -1,5 +1,5 @@
 namespace PageBackground;
-using Microsoft.sales.customer;
+using Microsoft.Sales.Customer;
 
 pageextension 52000 KNHCustomerCard extends "Customer Card"
 {
