@@ -17,14 +17,16 @@ codeunit 52001 "KNH Background Test"
 
         // Returns the results in the client
         //Message('Start time: ' + '%1' + ', Duration :' + '%2' + ', Finished time: ' + '%3', Results.Get('started'), Results.Get('waited'), Results.Get('finished'));
-        this.BackgroundMessage(TestMessage);
+        //this.BackgroundMessage(TestMessage);
     end;
 
+    /*
     [MessageHandler]
     procedure BackgroundMessage(TextMessage: Text)
     begin
         Message('Start time: ' + '%1' + ', Duration :' + '%2' + ', Finished time: ' + '%3', Results.Get('started'), Results.Get('waited'), Results.Get('finished'));
     end;
+    */
 
     var
         CustomerCard: TestPage "Customer Card";

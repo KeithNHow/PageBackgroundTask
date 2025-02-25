@@ -53,11 +53,10 @@ pageextension 52000 KNHCustomerCard extends "Customer Card"
         Finished: Text;
         PBTNotification: Notification;
     begin
-        Message(Format(TaskId) + ' ' + Format(WaitTaskId));
-        if TaskId = WaitTaskId then begin
-            Evaluate(Started, Results.Get('started'));
-            Evaluate(Waited, Results.Get('waited'));
-            Evaluate(Finished, Results.Get('finished'));
+        if TaskId = WaitTaskId - 1 then begin
+            //Evaluate(Started, Results.Get('started'));
+            //Evaluate(Waited, Results.Get('waited'));
+            //Evaluate(Finished, Results.Get('finished'));
 
             StartTime := Started;
             DurationTime := Waited;
