@@ -6,7 +6,6 @@ codeunit 52000 KNHBackgroundParameters
     var
         Results: Dictionary of [Text, Text];
         StartTime: Time;
-        WaitParam: Text;
         WaitTime: Integer;
         EndTime: Time;
     begin

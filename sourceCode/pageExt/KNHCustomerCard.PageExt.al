@@ -7,21 +7,24 @@ pageextension 52000 KNHCustomerCard extends "Customer Card"
     {
         addlast(General)
         {
-            field(start_time; starttime)
+            field(starttime; StartTime)
             {
                 ApplicationArea = All;
+                ToolTip = 'Start Time';
                 Caption = 'Start Time';
                 Editable = false;
             }
-            field(duration_time; durationtime)
+            field(durationtime; DurationTime)
             {
                 ApplicationArea = All;
+                ToolTip = 'Duration';
                 Caption = 'Duration';
                 Editable = false;
             }
-            field(end_time; endtime)
+            field(endtime; EndTime)
             {
                 ApplicationArea = All;
+                ToolTip = 'End Time';
                 Caption = 'End Time';
                 Editable = false;
             }
@@ -40,7 +43,6 @@ pageextension 52000 KNHCustomerCard extends "Customer Card"
     var
         //Defines a variable for passing parameters to the background task
         TaskParameters: Dictionary of [Text, Text];
-        KNHBackgroundParameters: Codeunit KNHBackgroundParameters;
     begin
         TaskParameters.Add('Wait', '1000');
         CurrPage.EnqueueBackgroundTask(WaitTaskId, Codeunit::KNHBackgroundParameters, TaskParameters, 1000, PageBackgroundTaskErrorLevel::Warning);
@@ -48,10 +50,10 @@ pageextension 52000 KNHCustomerCard extends "Customer Card"
 
     trigger OnPageBackgroundTaskCompleted(TaskId: Integer; Results: Dictionary of [Text, Text])
     var
+        PBTNotification: Notification;
         Started: Text;
         Waited: Text;
         Finished: Text;
-        PBTNotification: Notification;
     begin
         if TaskId = WaitTaskId - 1 then begin
             //Evaluate(Started, Results.Get('started'));

@@ -32,5 +32,4 @@ codeunit 52001 "KNH Background Test"
         CustomerCard: TestPage "Customer Card";
         Results: Dictionary of [Text, Text];
         TaskParameters: Dictionary of [Text, Text];
-        TestMessage: Text;
 }
