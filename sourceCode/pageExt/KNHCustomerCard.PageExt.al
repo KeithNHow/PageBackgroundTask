@@ -11,21 +11,21 @@ pageextension 52000 KNHCustomerCard extends "Customer Card"
             {
                 ApplicationArea = All;
                 ToolTip = 'Start Time';
-                Caption = 'Start Time';
+                Caption = 'Task Start Time';
                 Editable = false;
             }
             field(durationtime; DurationTime)
             {
                 ApplicationArea = All;
                 ToolTip = 'Duration';
-                Caption = 'Duration';
+                Caption = 'Task Duration';
                 Editable = false;
             }
             field(endtime; EndTime)
             {
                 ApplicationArea = All;
                 ToolTip = 'End Time';
-                Caption = 'End Time';
+                Caption = 'Task End Time';
                 Editable = false;
             }
         }
@@ -34,10 +34,9 @@ pageextension 52000 KNHCustomerCard extends "Customer Card"
     var
         // Global variable used for the TaskID
         WaitTaskId: Integer;
-        // Variables for the three fields on the page 
-        StartTime: Text;
-        DurationTime: Text;
-        EndTime: Text;
+        StartTime: Text[50];
+        DurationTime: Text[50];
+        EndTime: Text[50];
 
     trigger OnAfterGetCurrRecord()
     var
@@ -50,37 +49,33 @@ pageextension 52000 KNHCustomerCard extends "Customer Card"
 
     trigger OnPageBackgroundTaskCompleted(TaskId: Integer; Results: Dictionary of [Text, Text])
     var
-        PBTNotification: Notification;
-        Started: Text;
-        Waited: Text;
-        Finished: Text;
+        Notification: Notification;
+        Started: Text[50];
+        Waited: Text[50];
+        Finished: Text[50];
     begin
         if TaskId = WaitTaskId - 1 then begin
-            //Evaluate(Started, Results.Get('started'));
-            //Evaluate(Waited, Results.Get('waited'));
-            //Evaluate(Finished, Results.Get('finished'));
-
             StartTime := Started;
             DurationTime := Waited;
             EndTime := Finished;
-            PBTNotification.Message('Start and finish times have been updated.');
-            PBTNotification.Send();
+            Notification.Message('Start and finish times have been updated.');
+            Notification.Send();
         end;
     end;
 
     trigger OnPageBackgroundTaskError(TaskId: Integer; ErrorCode: Text; ErrorText: Text; ErrorCallStack: Text; var IsHandled: Boolean)
     var
-        PBTErrorNotification: Notification;
+        ErrorNotification: Notification;
     begin
         if ErrorCode = 'ChildSessionTaskTimeout' then begin
             IsHandled := true;
-            PBTErrorNotification.Message('Something went wrong. The start and finish times haven''t been updated.');
-            PBTErrorNotification.Send();
+            ErrorNotification.Message('Something went wrong. The start and finish times haven''t been updated.');
+            ErrorNotification.Send();
         end else
             if ErrorText = 'Child Session task was terminated because of a timeout.' then begin
                 IsHandled := true;
-                PBTErrorNotification.Message('It took too long to get results. Try again.');
-                PBTErrorNotification.Send();
+                ErrorNotification.Message('It took too long to get results. Try again.');
+                ErrorNotification.Send();
             end
     end;
 }

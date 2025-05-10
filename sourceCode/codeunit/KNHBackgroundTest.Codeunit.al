@@ -2,10 +2,22 @@ namespace PageBackground;
 using Microsoft.Sales.Customer;
 codeunit 52001 "KNH Background Test"
 {
-    Subtype = Test;
+    Subtype = Test; //Sets the codeunit to function as a normal, test, test runner, upgrade, or install codeunit.
 
-    [Test]
+    [Test] //Specifies that the method is a test method.
+
+    //Specifies the handler methods that are used by the test method.
+    [HandlerFunctions('NotificationHandler,MessageHandler,StrMenuHandler')]
     procedure ShowBackground();
+    var
+        Notification: Notification;
+        CustomerCard: TestPage "Customer Card";
+        TaskParameters: Dictionary of [Text, Text];
+        Results: Dictionary of [Text, Text];
+        Options: Text;
+        Selection: Text;
+        Choice: Integer;
+        ChoiceLbl: Label 'Choose one of the following options:';
     begin
         CustomerCard.OpenEdit();
 
@@ -13,23 +25,42 @@ codeunit 52001 "KNH Background Test"
         TaskParameters.Add('Wait', '1000');
 
         // Runs the background task codeunit
-        Results := CustomerCard.RunPageBackgroundTask(52000, TaskParameters);
+        Results := CustomerCard.RunPageBackgroundTask(Codeunit::KNHBackgroundParameters, TaskParameters);
 
-        // Returns the results in the client
-        //Message('Start time: ' + '%1' + ', Duration :' + '%2' + ', Finished time: ' + '%3', Results.Get('started'), Results.Get('waited'), Results.Get('finished'));
-        //this.BackgroundMessage(TestMessage);
+        Notification.Message('Start Time:' + Results.Get('started') + ', Duration:' + Results.Get('started') + ', Finished time: ' + Results.Get('started'));
+
+        Choice := Dialog.StrMenu(Options, 1, ChoiceLbl);
+        case Choice of
+            1:
+                Selection := 'Choice 1 Selected';
+            2:
+                Selection := 'Choice 2 Selected';
+            3:
+                Selection := 'Choice 3 Selected';
+        end;
+
+        Message('The background task has been completed.');
     end;
 
-    /*
-    [MessageHandler]
-    procedure BackgroundMessage(TextMessage: Text)
+    [SendNotificationHandler(true)]
+    procedure NotificationHandler(var TheNotification: Notification): Boolean;
     begin
-        Message('Start time: ' + '%1' + ', Duration :' + '%2' + ', Finished time: ' + '%3', Results.Get('started'), Results.Get('waited'), Results.Get('finished'));
+        exit(true);
     end;
-    */
 
+    [MessageHandler]
+    procedure MessageHandler(TestMessage: Text)
+    begin
+    end;
+
+    [StrMenuHandler]
+    procedure StrMenuHandler(Options: Text[1024]; var Choice: Integer; Instruction: Text[1024])
     var
-        CustomerCard: TestPage "Customer Card";
-        Results: Dictionary of [Text, Text];
-        TaskParameters: Dictionary of [Text, Text];
+    begin
+        Choice := 3;
+    end;
+
+    //You use handler methods to automate tests by handling instances when user interaction is required by the code that is being tested by the test method. In these instances, the handler method is run instead of the requested user interface. The handler method should simulate the user interaction for the test case, such as validating messages, making selections, or entering values. 
+
+    //In the above case no notification or message is shown.
 }
