@@ -7,9 +7,10 @@ codeunit 52001 "KNH Background Test"
     [Test] //Specifies that the method is a test method.
 
     //Specifies the handler methods that are used by the test method.
-    [HandlerFunctions('NotificationHandler,MessageHandler,StrMenuHandler')]
+    [HandlerFunctions('MySendNotificationHandler,MyStrMenuHandler,MyReportHandler,MyConfirmHandler')]
     procedure ShowBackground();
     var
+        KNHBackgroundTest: Report "KNH Background Test";
         Notification: Notification;
         CustomerCard: TestPage "Customer Card";
         TaskParameters: Dictionary of [Text, Text];
@@ -38,26 +39,46 @@ codeunit 52001 "KNH Background Test"
             3:
                 Selection := 'Choice 3 Selected';
         end;
+        Message('You have selected option: ' + Selection);
 
-        Message('The background task has been completed.');
+        //Message('The background task has been completed.');
+
+        KNHBackgroundTest.Run();
+
+        if Confirm('Do you want to continue?', true) then
+            Message('You have selected to continue.')
+        else
+            Message('You have selected to stop.');
     end;
 
     [SendNotificationHandler(true)]
-    procedure NotificationHandler(var TheNotification: Notification): Boolean;
+    procedure MySendNotificationHandler(var Notification: Notification): Boolean
     begin
         exit(true);
     end;
-
-    [MessageHandler]
-    procedure MessageHandler(TestMessage: Text)
-    begin
-    end;
-
+    /*
+        [MessageHandler]
+        procedure MyMessageHandler(Message: Text)
+        begin
+        end;
+    */
     [StrMenuHandler]
-    procedure StrMenuHandler(Options: Text[1024]; var Choice: Integer; Instruction: Text[1024])
+    procedure MyStrMenuHandler(Options: Text[1024]; var Choice: Integer; Instruction: Text[1024])
     var
     begin
         Choice := 3;
+    end;
+
+    [ReportHandler]
+    procedure MyReportHandler(var KNHBackgroundTest: Report "KNH Background Test")
+    begin
+
+    end;
+
+    [ConfirmHandler]
+    procedure MyConfirmHandler(Question: Text[1024]; var Reply: Boolean)
+    begin
+        Reply := true;
     end;
 
     //You use handler methods to automate tests by handling instances when user interaction is required by the code that is being tested by the test method. In these instances, the handler method is run instead of the requested user interface. The handler method should simulate the user interaction for the test case, such as validating messages, making selections, or entering values. 
