@@ -1,4 +1,4 @@
-namespace PageBackground;
+namespace KNHPageBackground;
 
 codeunit 52000 KNHBackgroundParameters
 {

@@ -1,4 +1,4 @@
-namespace PageBackground;
+namespace KNHPageBackground;
 using Microsoft.Sales.Customer;
 codeunit 52001 "KNH Background Test"
 {
@@ -7,10 +7,10 @@ codeunit 52001 "KNH Background Test"
     [Test] //Specifies that the method is a test method.
 
     //Specifies the handler methods that are used by the test method.
-    [HandlerFunctions('MySendNotificationHandler,MyStrMenuHandler,MyReportHandler,MyConfirmHandler')]
+    [HandlerFunctions('MySendNotificationHandler,MyStrMenuHandler,MyConfirmHandler,MyMessageHandler')]
     procedure ShowBackground();
     var
-        KNHBackgroundTest: Report "KNH Background Test";
+        //KNHBackgroundTest: Report "KNH Background Test";
         Notification: Notification;
         CustomerCard: TestPage "Customer Card";
         TaskParameters: Dictionary of [Text, Text];
@@ -33,22 +33,22 @@ codeunit 52001 "KNH Background Test"
         Choice := Dialog.StrMenu(Options, 1, ChoiceLbl);
         case Choice of
             1:
-                Selection := 'Choice 1 Selected';
+                Selection := 'Choice 1';
             2:
-                Selection := 'Choice 2 Selected';
+                Selection := 'Choice 2';
             3:
-                Selection := 'Choice 3 Selected';
+                Selection := 'Choice 3';
         end;
-        Message('You have selected option: ' + Selection);
 
-        //Message('The background task has been completed.');
+        Message('You have selected %1', Selection);
 
-        KNHBackgroundTest.Run();
+        Message('The background task has been completed.');
 
-        if Confirm('Do you want to continue?', true) then
-            Message('You have selected to continue.')
+        //KNHBackgroundTest.Run(); //Report
+        if Confirm('Do you want to continue?', true) = true then
+            error('You have selected to continue.')
         else
-            Message('You have selected to stop.');
+            error('You have selected to stop.');
     end;
 
     [SendNotificationHandler(true)]
@@ -56,12 +56,12 @@ codeunit 52001 "KNH Background Test"
     begin
         exit(true);
     end;
-    /*
-        [MessageHandler]
-        procedure MyMessageHandler(Message: Text)
-        begin
-        end;
-    */
+
+    [MessageHandler]
+    procedure MyMessageHandler(Message: Text)
+    begin
+    end;
+
     [StrMenuHandler]
     procedure MyStrMenuHandler(Options: Text[1024]; var Choice: Integer; Instruction: Text[1024])
     var
@@ -69,11 +69,13 @@ codeunit 52001 "KNH Background Test"
         Choice := 3;
     end;
 
+    /*
     [ReportHandler]
     procedure MyReportHandler(var KNHBackgroundTest: Report "KNH Background Test")
     begin
 
     end;
+    */
 
     [ConfirmHandler]
     procedure MyConfirmHandler(Question: Text[1024]; var Reply: Boolean)

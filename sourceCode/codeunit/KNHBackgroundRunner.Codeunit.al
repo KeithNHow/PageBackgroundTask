@@ -2,7 +2,7 @@
 //SubType TestRunner - Allows for the running of multiple tests in a single run.
 //TestIsolation = Allows for rollback of test data after each test.
 
-namespace PageBackground;
+namespace KNHPageBackground;
 
 codeunit 52002 "KNH Background Runner"
 {

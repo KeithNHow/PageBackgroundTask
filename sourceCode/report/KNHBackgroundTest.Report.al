@@ -1,3 +1,6 @@
+namespace KNHPageBackground;
+using Microsoft.Sales.Customer;
+
 report 52000 "KNH Background Test"
 {
     UsageCategory = ReportsAndAnalysis;
